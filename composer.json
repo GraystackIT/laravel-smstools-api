@@ -1,0 +1,51 @@
+{
+    "name": "graystack/laravel-smstools-api",
+    "description": "Laravel package for integrating the Smstools SMS Gateway API (smsgatewayapi.com)",
+    "keywords": ["laravel", "sms", "smstools", "sms-gateway", "messaging"],
+    "homepage": "https://github.com/GraystackIT/laravel-smstools-api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "GraystackIT"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "saloonphp/saloon": "^4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "pestphp/pest": "^2.0|^3.0",
+        "pestphp/pest-plugin-laravel": "^2.0|^3.0",
+        "laravel/pint": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Graystack\\SmstoolsApi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Graystack\\SmstoolsApi\\SmstoolsServiceProvider"
+            ],
+            "aliases": {
+                "Smstools": "Graystack\\SmstoolsApi\\Facades\\Smstools"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
