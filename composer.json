@@ -2,12 +2,11 @@
     "name": "graystack/laravel-smstools-api",
     "description": "Laravel package for integrating the Smstools SMS Gateway API (smsgatewayapi.com)",
     "keywords": ["laravel", "sms", "smstools", "sms-gateway", "messaging"],
-    "homepage": "https://github.com/graystack/laravel-smstools-api",
+    "homepage": "https://github.com/GraystackIT/laravel-smstools-api",
     "license": "MIT",
     "authors": [
         {
-            "name": "Graystack",
-            "email": "hello@graystack.io"
+            "name": "GraystackIT"
         }
     ],
     "require": {
