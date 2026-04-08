@@ -182,4 +182,4 @@ vendor/bin/pest
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT.
