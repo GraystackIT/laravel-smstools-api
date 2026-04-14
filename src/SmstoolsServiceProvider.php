@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Graystack\SmstoolsApi;
+namespace GraystackIT\SmstoolsApi;
 
-use Graystack\SmstoolsApi\Connectors\SmstoolsConnector;
+use GraystackIT\SmstoolsApi\Connectors\SmstoolsConnector;
 use Illuminate\Support\ServiceProvider;
 
 class SmstoolsServiceProvider extends ServiceProvider

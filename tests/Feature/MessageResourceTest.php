@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-use Graystack\SmstoolsApi\Connectors\SmstoolsConnector;
-use Graystack\SmstoolsApi\Exceptions\SmstoolsException;
-use Graystack\SmstoolsApi\Requests\SendMessageRequest;
-use Graystack\SmstoolsApi\SmstoolsClient;
+use GraystackIT\SmstoolsApi\Connectors\SmstoolsConnector;
+use GraystackIT\SmstoolsApi\Exceptions\SmstoolsException;
+use GraystackIT\SmstoolsApi\Requests\SendMessageRequest;
+use GraystackIT\SmstoolsApi\SmstoolsClient;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 

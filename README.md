@@ -1,4 +1,4 @@
-# graystack/laravel-smstools-api
+# graystackit/laravel-smstools-api
 
 A Laravel package for the [Smstools SMS Gateway API](https://www.smsgatewayapi.com/), built on [Saloon 4](https://docs.saloon.dev/).
 
@@ -12,7 +12,7 @@ Send SMS messages to single or multiple recipients, schedule delivery, use test 
 ## Installation
 
 ```bash
-composer require graystack/laravel-smstools-api
+composer require graystackit/laravel-smstools-api
 ```
 
 Laravel auto-discovers the service provider and registers the `Smstools` facade. Then publish the config file:
@@ -45,7 +45,7 @@ Inject `SmstoolsClient` via the constructor, resolve it from the container, or u
 ### Send to a single recipient
 
 ```php
-use Graystack\SmstoolsApi\Facades\Smstools;
+use GraystackIT\SmstoolsApi\Facades\Smstools;
 
 $result = Smstools::messages()->send(
     to: '436501234567',
@@ -96,7 +96,7 @@ $result = Smstools::messages()->send(
 ### Using dependency injection
 
 ```php
-use Graystack\SmstoolsApi\SmstoolsClient;
+use GraystackIT\SmstoolsApi\SmstoolsClient;
 
 class SmsController extends Controller
 {
@@ -115,10 +115,10 @@ class SmsController extends Controller
 
 ## Error handling
 
-All API errors throw `Graystack\SmstoolsApi\Exceptions\SmstoolsException` (extends `RuntimeException`).
+All API errors throw `GraystackIT\SmstoolsApi\Exceptions\SmstoolsException` (extends `RuntimeException`).
 
 ```php
-use Graystack\SmstoolsApi\Exceptions\SmstoolsException;
+use GraystackIT\SmstoolsApi\Exceptions\SmstoolsException;
 
 try {
     $result = Smstools::messages()->send(
@@ -151,9 +151,9 @@ try {
 Tests use Saloon's `MockClient` — no real API calls are made.
 
 ```php
-use Graystack\SmstoolsApi\Connectors\SmstoolsConnector;
-use Graystack\SmstoolsApi\Requests\SendMessageRequest;
-use Graystack\SmstoolsApi\SmstoolsClient;
+use GraystackIT\SmstoolsApi\Connectors\SmstoolsConnector;
+use GraystackIT\SmstoolsApi\Requests\SendMessageRequest;
+use GraystackIT\SmstoolsApi\SmstoolsClient;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 

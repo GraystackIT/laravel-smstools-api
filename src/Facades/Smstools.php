@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Graystack\SmstoolsApi\Facades;
+namespace GraystackIT\SmstoolsApi\Facades;
 
-use Graystack\SmstoolsApi\Resources\MessageResource;
-use Graystack\SmstoolsApi\SmstoolsClient;
+use GraystackIT\SmstoolsApi\Resources\MessageResource;
+use GraystackIT\SmstoolsApi\SmstoolsClient;
 use Illuminate\Support\Facades\Facade;
 
 /**

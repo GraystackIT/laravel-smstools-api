@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Graystack\SmstoolsApi\Exceptions;
+namespace GraystackIT\SmstoolsApi\Exceptions;
 
 use RuntimeException;
 

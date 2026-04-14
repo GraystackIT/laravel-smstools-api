@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Graystack\SmstoolsApi\SmstoolsServiceProvider;
+use GraystackIT\SmstoolsApi\SmstoolsServiceProvider;
 use Orchestra\Testbench\TestCase;
 
 uses(TestCase::class)->in('Feature');

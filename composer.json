@@ -1,5 +1,5 @@
 {
-    "name": "graystack/laravel-smstools-api",
+    "name": "graystackit/laravel-smstools-api",
     "description": "Laravel package for integrating the Smstools SMS Gateway API (smsgatewayapi.com)",
     "keywords": ["laravel", "sms", "smstools", "sms-gateway", "messaging"],
     "homepage": "https://github.com/GraystackIT/laravel-smstools-api",
@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Graystack\\SmstoolsApi\\": "src/"
+            "GraystackIT\\SmstoolsApi\\": "src/"
         }
     },
     "autoload-dev": {
@@ -33,10 +33,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Graystack\\SmstoolsApi\\SmstoolsServiceProvider"
+                "GraystackIT\\SmstoolsApi\\SmstoolsServiceProvider"
             ],
             "aliases": {
-                "Smstools": "Graystack\\SmstoolsApi\\Facades\\Smstools"
+                "Smstools": "GraystackIT\\SmstoolsApi\\Facades\\Smstools"
             }
         }
     },

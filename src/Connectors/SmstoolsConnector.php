@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Graystack\SmstoolsApi\Connectors;
+namespace GraystackIT\SmstoolsApi\Connectors;
 
 use Saloon\Http\Connector;
 use Saloon\Traits\Plugins\AcceptsJson;

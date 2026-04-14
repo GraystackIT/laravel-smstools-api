@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Graystack\SmstoolsApi\Resources;
+namespace GraystackIT\SmstoolsApi\Resources;
 
-use Graystack\SmstoolsApi\Exceptions\SmstoolsException;
-use Graystack\SmstoolsApi\Requests\SendMessageRequest;
-use Graystack\SmstoolsApi\SmstoolsClient;
+use GraystackIT\SmstoolsApi\Exceptions\SmstoolsException;
+use GraystackIT\SmstoolsApi\Requests\SendMessageRequest;
+use GraystackIT\SmstoolsApi\SmstoolsClient;
 
 class MessageResource
 {

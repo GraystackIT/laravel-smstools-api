@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Graystack\SmstoolsApi;
+namespace GraystackIT\SmstoolsApi;
 
-use Graystack\SmstoolsApi\Connectors\SmstoolsConnector;
-use Graystack\SmstoolsApi\Exceptions\SmstoolsException;
-use Graystack\SmstoolsApi\Resources\MessageResource;
+use GraystackIT\SmstoolsApi\Connectors\SmstoolsConnector;
+use GraystackIT\SmstoolsApi\Exceptions\SmstoolsException;
+use GraystackIT\SmstoolsApi\Resources\MessageResource;
 use Saloon\Exceptions\Request\RequestException;
 use Saloon\Http\Request;
 
