@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace GraystackIT\SmstoolsApi\Requests\Optouts;
+
+use Saloon\Enums\Method;
+use Saloon\Http\Request;
+
+class ListOptoutsRequest extends Request
+{
+    protected Method $method = Method::GET;
+
+    public function __construct(
+        private readonly int  $limit = 100,
+        private readonly int  $page = 1,
+    ) {
+        if ($this->limit < 1 || $this->limit > 2000) {
+            throw new \InvalidArgumentException('Limit must be between 1 and 2000.');
+        }
+
+        if ($this->page < 1) {
+            throw new \InvalidArgumentException('Page must be at least 1.');
+        }
+    }
+
+    public function resolveEndpoint(): string
+    {
+        return '/optouts/list';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function defaultQuery(): array
+    {
+        return [
+            'limit' => $this->limit,
+            'page'  => $this->page,
+        ];
+    }
+}
