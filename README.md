@@ -1,6 +1,6 @@
 # graystackit/laravel-smstools-api
 
-A Laravel package for the [Smstools SMS Gateway API](https://www.smsgatewayapi.com/), built on [Saloon 4](https://docs.saloon.dev/).
+A Laravel package for the [Smstools API](https://www.smstools.at/), built on [Saloon 4](https://docs.saloon.dev/).
 
 Send SMS messages to single or multiple recipients, schedule delivery, use test mode, and route through subaccounts — all with a clean, Laravel-native interface.
 
