@@ -211,18 +211,20 @@ $history = Smstools::account()->history(
     page:  1,
 );
 
-// Inbox — messages for a given inbox number
+// Inbox — all messages across all inboxes
 $inbox = Smstools::account()->inbox(
+    limit: 100,
+    page:  1,
+    type:  'sms',   // optional: "sms", "whatsapp", or "call"
+);
+
+// Inbox — messages from a specific inbox number
+$inbox = Smstools::account()->inboxByNumber(
     inboxNr: 1,
     limit:   100,
     page:    1,
     type:    'sms',   // optional: "sms", "whatsapp", or "call"
 );
-
-// Inbox — specific message
-$message = Smstools::account()->inboxMessage('msg-001');
-echo $message['from'];
-echo $message['message'];
 
 // Statistics
 $stats = Smstools::account()->statistics(
@@ -341,8 +343,8 @@ $result = Smstools::webhooks()->create(
 );
 echo $result['secret']; // shared secret for signature verification
 
-// Delete a webhook by ID
-Smstools::webhooks()->delete(5);
+// Delete a webhook by its secret token (returned when the webhook was created)
+Smstools::webhooks()->delete('ccc14fb1-bf8c-4ebf-882c-caccd4c95a2c');
 ```
 
 ---

@@ -8,7 +8,7 @@ use GraystackIT\SmstoolsApi\Exceptions\SmstoolsException;
 use GraystackIT\SmstoolsApi\Requests\Account\GetAccountRequest;
 use GraystackIT\SmstoolsApi\Requests\Account\GetBalanceRequest;
 use GraystackIT\SmstoolsApi\Requests\Account\GetHistoryRequest;
-use GraystackIT\SmstoolsApi\Requests\Account\GetInboxMessageRequest;
+use GraystackIT\SmstoolsApi\Requests\Account\GetInboxByNumberRequest;
 use GraystackIT\SmstoolsApi\Requests\Account\GetInboxRequest;
 use GraystackIT\SmstoolsApi\Requests\Account\GetStatisticsRequest;
 use GraystackIT\SmstoolsApi\SmstoolsClient;
@@ -26,7 +26,7 @@ class AccountResource
      */
     public function details(): array
     {
-        return $this->client->send(new GetAccountRequest());
+        return $this->client->send(new GetAccountRequest);
     }
 
     /**
@@ -38,15 +38,14 @@ class AccountResource
      */
     public function balance(): array
     {
-        return $this->client->send(new GetBalanceRequest());
+        return $this->client->send(new GetBalanceRequest);
     }
 
     /**
      * Retrieve account transaction history.
      *
      * @param  string|null  $from  Start date in "yyyy-MM-dd" format
-     * @param  string|null  $to    End date in "yyyy-MM-dd" format
-     *
+     * @param  string|null  $to  End date in "yyyy-MM-dd" format
      * @return array<string, mixed>
      *
      * @throws SmstoolsException
@@ -54,14 +53,14 @@ class AccountResource
     public function history(
         ?string $from = null,
         ?string $to = null,
-        int     $limit = 100,
-        int     $page = 1,
+        int $limit = 100,
+        int $page = 1,
     ): array {
         return $this->client->send(new GetHistoryRequest(
-            from:  $from,
-            to:    $to,
+            from: $from,
+            to: $to,
             limit: $limit,
-            page:  $page,
+            page: $page,
         ));
     }
 
@@ -69,41 +68,49 @@ class AccountResource
      * Retrieve all inbox messages.
      *
      * @param  string|null  $type  Filter by message type: "sms", "whatsapp", or "call"
-     *
      * @return array<string, mixed>
      *
      * @throws SmstoolsException
      */
     public function inbox(
-        int     $limit = 100,
-        int     $page = 1,
+        int $limit = 100,
+        int $page = 1,
         ?string $type = null,
     ): array {
         return $this->client->send(new GetInboxRequest(
             limit: $limit,
-            page:  $page,
-            type:  $type,
+            page: $page,
+            type: $type,
         ));
     }
 
     /**
-     * Retrieve a specific inbox message by ID.
+     * Retrieve all messages from a specific inbox number.
      *
+     * @param  string|null  $type  Filter by message type: "sms", "whatsapp", or "call"
      * @return array<string, mixed>
      *
      * @throws SmstoolsException
      */
-    public function inboxMessage(string $id): array
-    {
-        return $this->client->send(new GetInboxMessageRequest(id: $id));
+    public function inboxByNumber(
+        int $inboxNr,
+        int $limit = 100,
+        int $page = 1,
+        ?string $type = null,
+    ): array {
+        return $this->client->send(new GetInboxByNumberRequest(
+            inboxNr: $inboxNr,
+            limit: $limit,
+            page: $page,
+            type: $type,
+        ));
     }
 
     /**
      * Retrieve account SMS statistics.
      *
-     * @param  string|null  $year   Four-digit year (e.g. "2024")
+     * @param  string|null  $year  Four-digit year (e.g. "2024")
      * @param  string|null  $month  Two-digit month (e.g. "01")
-     *
      * @return array<string, mixed>
      *
      * @throws SmstoolsException
@@ -113,7 +120,7 @@ class AccountResource
         ?string $month = null,
     ): array {
         return $this->client->send(new GetStatisticsRequest(
-            year:  $year,
+            year: $year,
             month: $month,
         ));
     }

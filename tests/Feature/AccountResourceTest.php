@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-use GraystackIT\SmstoolsApi\Connectors\SmstoolsConnector;
 use GraystackIT\SmstoolsApi\Exceptions\SmstoolsException;
 use GraystackIT\SmstoolsApi\Requests\Account\GetAccountRequest;
 use GraystackIT\SmstoolsApi\Requests\Account\GetBalanceRequest;
 use GraystackIT\SmstoolsApi\Requests\Account\GetHistoryRequest;
-use GraystackIT\SmstoolsApi\Requests\Account\GetInboxMessageRequest;
+use GraystackIT\SmstoolsApi\Requests\Account\GetInboxByNumberRequest;
 use GraystackIT\SmstoolsApi\Requests\Account\GetInboxRequest;
 use GraystackIT\SmstoolsApi\Requests\Account\GetStatisticsRequest;
 use GraystackIT\SmstoolsApi\SmstoolsClient;
@@ -19,7 +18,7 @@ use Saloon\Http\Faking\MockResponse;
 it('retrieves account details', function (): void {
     $mockClient = new MockClient([
         GetAccountRequest::class => MockResponse::make([
-            'name'  => 'Test Account',
+            'name' => 'Test Account',
             'email' => 'test@example.com',
         ], 200),
     ]);
@@ -93,8 +92,8 @@ it('retrieves account history with date range', function (): void {
     $connector->withMockClient($mockClient);
 
     (new SmstoolsClient($connector))->account()->history(
-        from:  '2024-01-01',
-        to:    '2024-01-31',
+        from: '2024-01-01',
+        to: '2024-01-31',
         limit: 50,
     );
 
@@ -103,7 +102,7 @@ it('retrieves account history with date range', function (): void {
 
 it('throws InvalidArgumentException for invalid limit in history', function (): void {
     expect(fn () => (new SmstoolsClient(makeConnector()))->account()->history(limit: 0))
-        ->toThrow(\InvalidArgumentException::class, 'Limit must be between 1 and 2000.');
+        ->toThrow(InvalidArgumentException::class, 'Limit must be between 1 and 2000.');
 });
 
 // ─── inbox() ──────────────────────────────────────────────────────────────
@@ -145,35 +144,52 @@ it('retrieves the inbox filtered by type', function (): void {
 
 it('throws InvalidArgumentException for invalid page in inbox', function (): void {
     expect(fn () => (new SmstoolsClient(makeConnector()))->account()->inbox(page: 0))
-        ->toThrow(\InvalidArgumentException::class, 'Page must be at least 1.');
+        ->toThrow(InvalidArgumentException::class, 'Page must be at least 1.');
 });
 
-// ─── inboxMessage() ───────────────────────────────────────────────────────
+// ─── inboxByNumber() ──────────────────────────────────────────────────────
 
-it('retrieves a specific inbox message by ID', function (): void {
+it('retrieves messages from a specific inbox number', function (): void {
     $mockClient = new MockClient([
-        GetInboxMessageRequest::class => MockResponse::make([
-            'id'      => 'msg-001',
-            'from'    => '436501234567',
-            'message' => 'Hello reply',
+        GetInboxByNumberRequest::class => MockResponse::make([
+            'total' => 2,
+            'messages' => [
+                ['ID' => 'msg-001', 'message' => 'Hello', 'sender' => '436501234567'],
+                ['ID' => 'msg-002', 'message' => 'World',  'sender' => '436509876543'],
+            ],
         ], 200),
     ]);
 
     $connector = makeConnector();
     $connector->withMockClient($mockClient);
 
-    $result = (new SmstoolsClient($connector))->account()->inboxMessage('msg-001');
+    $result = (new SmstoolsClient($connector))->account()->inboxByNumber(1);
 
-    expect($result)->toBeArray()
-        ->toHaveKey('id', 'msg-001')
-        ->toHaveKey('message', 'Hello reply');
+    expect($result)->toBeArray()->toHaveKey('messages');
+    expect($result['messages'])->toHaveCount(2);
 
-    $mockClient->assertSent(GetInboxMessageRequest::class);
+    $mockClient->assertSent(GetInboxByNumberRequest::class);
 });
 
-it('throws InvalidArgumentException when inbox message ID is empty', function (): void {
-    expect(fn () => (new SmstoolsClient(makeConnector()))->account()->inboxMessage(''))
-        ->toThrow(\InvalidArgumentException::class, 'Inbox message ID must not be empty.');
+it('sends the correct inbox number in the endpoint', function (): void {
+    $mockClient = new MockClient([
+        GetInboxByNumberRequest::class => MockResponse::make(['messages' => []], 200),
+    ]);
+
+    $connector = makeConnector();
+    $connector->withMockClient($mockClient);
+
+    (new SmstoolsClient($connector))->account()->inboxByNumber(3, type: 'sms');
+
+    $mockClient->assertSent(function (GetInboxByNumberRequest $request): bool {
+        return str_ends_with($request->resolveEndpoint(), '/3')
+            && $request->query()->get('type') === 'sms';
+    });
+});
+
+it('throws InvalidArgumentException when inbox number is zero or negative', function (): void {
+    expect(fn () => (new SmstoolsClient(makeConnector()))->account()->inboxByNumber(0))
+        ->toThrow(InvalidArgumentException::class, 'Inbox number must be a positive integer.');
 });
 
 // ─── statistics() ─────────────────────────────────────────────────────────
@@ -181,9 +197,9 @@ it('throws InvalidArgumentException when inbox message ID is empty', function ()
 it('retrieves account statistics without filters', function (): void {
     $mockClient = new MockClient([
         GetStatisticsRequest::class => MockResponse::make([
-            'sent'      => 150,
+            'sent' => 150,
             'delivered' => 140,
-            'failed'    => 10,
+            'failed' => 10,
         ], 200),
     ]);
 
@@ -208,7 +224,7 @@ it('retrieves statistics for a specific year and month', function (): void {
     $connector->withMockClient($mockClient);
 
     (new SmstoolsClient($connector))->account()->statistics(
-        year:  '2024',
+        year: '2024',
         month: '01',
     );
 
