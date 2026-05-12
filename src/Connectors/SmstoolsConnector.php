@@ -13,15 +13,25 @@ class SmstoolsConnector extends Connector
     use AcceptsJson;
     use AlwaysThrowOnErrors;
 
+    /**
+     * @throws \InvalidArgumentException when clientId or clientSecret is empty
+     */
     public function __construct(
         private readonly string $clientId,
         private readonly string $clientSecret,
-        private readonly string $baseUrl = 'https://api.smsgatewayapi.com/v1',
-    ) {}
+    ) {
+        if (empty($this->clientId)) {
+            throw new \InvalidArgumentException('Smstools client ID must not be empty.');
+        }
+
+        if (empty($this->clientSecret)) {
+            throw new \InvalidArgumentException('Smstools client secret must not be empty.');
+        }
+    }
 
     public function resolveBaseUrl(): string
     {
-        return $this->baseUrl;
+        return config('smstools.base_url', 'https://api.smsgatewayapi.com/v1');
     }
 
     protected function defaultHeaders(): array

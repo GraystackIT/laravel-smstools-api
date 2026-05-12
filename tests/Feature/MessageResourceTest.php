@@ -9,19 +9,12 @@ use GraystackIT\SmstoolsApi\SmstoolsClient;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-function makeConnector(): SmstoolsConnector
-{
-    return new SmstoolsConnector(
-        clientId: 'test-client-id',
-        clientSecret: 'test-client-secret',
-    );
-}
-
 it('is resolved from the container', function (): void {
-    config([
-        'smstools.client_id'     => 'test-client-id',
-        'smstools.client_secret' => 'test-client-secret',
-    ]);
+    if (empty(config('smstools.client_id')) || empty(config('smstools.client_secret'))) {
+        $this->markTestSkipped(
+            'Set SMSTOOLS_CLIENT_ID and SMSTOOLS_CLIENT_SECRET in your environment file to run this test.'
+        );
+    }
 
     $this->app->instance(SmstoolsConnector::class, makeConnector());
     $this->app->forgetInstance(SmstoolsClient::class);

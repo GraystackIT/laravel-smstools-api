@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use GraystackIT\SmstoolsApi\Connectors\SmstoolsConnector;
 use GraystackIT\SmstoolsApi\Exceptions\SmstoolsException;
 use GraystackIT\SmstoolsApi\Requests\Optouts\AddOptoutRequest;
 use GraystackIT\SmstoolsApi\Requests\Optouts\ListOptoutsRequest;

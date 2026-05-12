@@ -35,7 +35,6 @@ class SmstoolsServiceProvider extends ServiceProvider
             return new SmstoolsConnector(
                 clientId: $clientId,
                 clientSecret: $clientSecret,
-                baseUrl: (string) config('smstools.base_url', 'https://api.smsgatewayapi.com/v1'),
             );
         });
 
