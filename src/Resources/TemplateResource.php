@@ -12,6 +12,7 @@ use GraystackIT\SmstoolsApi\Requests\Templates\RemoveTemplateRequest;
 use GraystackIT\SmstoolsApi\Requests\Templates\UpdateTemplateRequest;
 use GraystackIT\SmstoolsApi\SmstoolsClient;
 
+/** Resource for managing reusable message templates. */
 class TemplateResource
 {
     public function __construct(private readonly SmstoolsClient $client) {}
@@ -19,34 +20,43 @@ class TemplateResource
     /**
      * Add a new message template.
      *
+     * @param  string       $message  Template text (supports placeholders, e.g. [FIRSTNAME])
+     * @param  int          $order    Sort order in the UI (≥ 1)
+     * @param  string|null  $title    Display label for the template
      * @return array<string, mixed>
      *
+     * @throws \InvalidArgumentException
      * @throws SmstoolsException
      */
-    public function add(string $name, string $template): array
+    public function add(string $message, int $order, ?string $title = null): array
     {
         return $this->client->send(new AddTemplateRequest(
-            name:     $name,
-            template: $template,
+            message: $message,
+            order:   $order,
+            title:   $title,
         ));
     }
 
     /**
      * Update an existing message template.
      *
+     * @param  int          $id       Template ID
+     * @param  string|null  $message  New template text
+     * @param  string|null  $title    New display label
      * @return array<string, mixed>
      *
+     * @throws \InvalidArgumentException
      * @throws SmstoolsException
      */
     public function update(
         int     $id,
-        ?string $name = null,
-        ?string $template = null,
+        ?string $message = null,
+        ?string $title = null,
     ): array {
         return $this->client->send(new UpdateTemplateRequest(
-            id:       $id,
-            name:     $name,
-            template: $template,
+            id:      $id,
+            message: $message,
+            title:   $title,
         ));
     }
 
@@ -65,8 +75,10 @@ class TemplateResource
     /**
      * Retrieve a specific message template by ID.
      *
+     * @param  int  $id  Template ID
      * @return array<string, mixed>
      *
+     * @throws \InvalidArgumentException
      * @throws SmstoolsException
      */
     public function get(int $id): array
@@ -77,8 +89,10 @@ class TemplateResource
     /**
      * Remove a message template by ID.
      *
+     * @param  int  $id  Template ID
      * @return array<string, mixed>
      *
+     * @throws \InvalidArgumentException
      * @throws SmstoolsException
      */
     public function remove(int $id): array

@@ -12,6 +12,7 @@ use GraystackIT\SmstoolsApi\Requests\Contacts\SearchContactRequest;
 use GraystackIT\SmstoolsApi\Requests\Contacts\UpdateContactRequest;
 use GraystackIT\SmstoolsApi\SmstoolsClient;
 
+/** Resource for managing contacts in the address book. */
 class ContactResource
 {
     public function __construct(private readonly SmstoolsClient $client) {}
@@ -19,52 +20,86 @@ class ContactResource
     /**
      * Add a new contact.
      *
+     * @param  string                 $phone         International phone number (required)
+     * @param  int                    $groupid       Group the contact belongs to (required)
+     * @param  string|null            $firstname     First name
+     * @param  string|null            $lastname      Last name
+     * @param  string|null            $birthday      Birthday in yyyy-MM-dd format
+     * @param  bool|null              $unsubscribed  Subscription status
+     * @param  array<string, string>  $extra         Custom fields: extra1–extra8
      * @return array<string, mixed>
      *
+     * @throws \InvalidArgumentException
      * @throws SmstoolsException
      */
     public function add(
-        string  $firstname,
-        string  $number,
+        string  $phone,
+        int     $groupid,
+        ?string $firstname = null,
         ?string $lastname = null,
-        ?int    $groupid = null,
+        ?string $birthday = null,
+        ?bool   $unsubscribed = null,
+        array   $extra = [],
     ): array {
         return $this->client->send(new AddContactRequest(
-            firstname: $firstname,
-            number:    $number,
-            lastname:  $lastname,
-            groupid:   $groupid,
+            phone:        $phone,
+            groupid:      $groupid,
+            firstname:    $firstname,
+            lastname:     $lastname,
+            birthday:     $birthday,
+            unsubscribed: $unsubscribed,
+            extra:        $extra,
         ));
     }
 
     /**
      * Update an existing contact.
      *
+     * @param  int                    $id            Contact ID to update
+     * @param  string|null            $phone         New phone number
+     * @param  string|null            $firstname     New first name
+     * @param  string|null            $lastname      New last name
+     * @param  int|null               $groupid       New group assignment
+     * @param  string|null            $birthday      Birthday in yyyy-MM-dd format
+     * @param  bool|null              $unsubscribed  Subscription status
+     * @param  array<string, string>  $extra         Custom fields: extra1–extra8
      * @return array<string, mixed>
      *
+     * @throws \InvalidArgumentException
      * @throws SmstoolsException
      */
     public function update(
         int     $id,
+        ?string $phone = null,
         ?string $firstname = null,
         ?string $lastname = null,
-        ?string $number = null,
         ?int    $groupid = null,
+        ?string $birthday = null,
+        ?bool   $unsubscribed = null,
+        array   $extra = [],
     ): array {
         return $this->client->send(new UpdateContactRequest(
-            id:        $id,
-            firstname: $firstname,
-            lastname:  $lastname,
-            number:    $number,
-            groupid:   $groupid,
+            id:           $id,
+            phone:        $phone,
+            firstname:    $firstname,
+            lastname:     $lastname,
+            groupid:      $groupid,
+            birthday:     $birthday,
+            unsubscribed: $unsubscribed,
+            extra:        $extra,
         ));
     }
 
     /**
-     * Search contacts by name or number.
+     * Search contacts by name or phone number.
      *
+     * @param  string   $query    Search keyword
+     * @param  int|null $groupid  Restrict results to a specific group
+     * @param  int      $limit    Results per page (1–2000)
+     * @param  int      $page     Page number (≥ 1)
      * @return array<string, mixed>
      *
+     * @throws \InvalidArgumentException
      * @throws SmstoolsException
      */
     public function search(
@@ -84,8 +119,12 @@ class ContactResource
     /**
      * List all contacts, optionally filtered by group.
      *
+     * @param  int|null $groupid  Restrict results to a specific group
+     * @param  int      $limit    Results per page (1–2000)
+     * @param  int      $page     Page number (≥ 1)
      * @return array<string, mixed>
      *
+     * @throws \InvalidArgumentException
      * @throws SmstoolsException
      */
     public function list(
@@ -103,8 +142,10 @@ class ContactResource
     /**
      * Remove a contact by ID.
      *
+     * @param  int  $id  Contact ID
      * @return array<string, mixed>
      *
+     * @throws \InvalidArgumentException
      * @throws SmstoolsException
      */
     public function remove(int $id): array
